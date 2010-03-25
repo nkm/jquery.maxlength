@@ -14,16 +14,16 @@
 	{
 		var settings = jQuery.extend(
 		{
-			events:				[], // Array of events to be triggerd
-			maxCharacters:		10, // Characters limit
-			status:				true, // True to show status indicator below the element
-			statusElement:		"span", // Status element type
-			statusClass:		"status", // The class on the status element
-			statusText:			"character left", // The status text
-			notificationClass:	"notification", // Will be added to the emement when maxlength is reached
-			showAlert:			false, // True to show a regular alert message
+			events:				[],					// Array of events to be triggered
+			maxCharacters:		10,					// Character limit
+			status:				true,				// True to show status indicator below the element
+			statusTag:			"span",				// Status element type
+			statusClass:		"status",			// The class on the status element
+			statusText:			"character left",	// The status text
+			notificationClass:	"notification",		// Will be added to the emement when maxlength is reached
+			showAlert:			false,				// True to show a regular alert message
 			alertText:			"You have typed too many characters.", // Text in the alert message
-			slider:				false // Use counter slider
+			slider:				false				// Use counter slider (use with status:true)
 		}, options);
 
 		// Add the default event
@@ -33,6 +33,7 @@
 		{
 			var item = $(this);
 			var charactersLength = $(this).val().length;
+			var statusElement = item.siblings(settings.statusTag+'.'+settings.statusClass);
 
 			// Update the status text
 			function updateStatus()
@@ -44,7 +45,7 @@
 					charactersLeft = 0;
 				}
 
-				item.next(settings.statusElement).html(charactersLeft + " " + settings.statusText);
+				statusElement.html(charactersLeft + " " + settings.statusText);
 			}
 
 			function checkChars()
@@ -120,31 +121,35 @@
 			// Insert the status element
 			if(settings.status)
 			{
-				item.after($("<"+settings.statusElement+"/>").addClass(settings.statusClass).html('-'));
+				// If the element doesn't exists, create it
+				if (statusElement.length <= 0)
+				{
+					item.after($("<"+settings.statusTag+"/>").addClass(settings.statusClass).html('-'));
+					var statusElement = item.siblings(settings.statusTag+"."+settings.statusClass);
+				}
+
 				updateStatus();
+
+				// Slide counter
+				if(settings.slider) {
+					statusElement.hide();
+
+					item.focus(function(){
+						statusElement.slideDown('fast');
+					});
+
+					item.blur(function(){
+						statusElement.slideUp('fast');
+					});
+				}
 			}
 
 			// Remove the status element
 			if(!settings.status)
 			{
-				var removeThisElement = item.next(settings.statusElement+"."+settings.statusClass);
-
-				if(removeThisElement) {
-					removeThisElement.remove();
+				if(statusElement) {
+					statusElement.remove();
 				}
-			}
-
-			// Slide counter
-			if(settings.slider) {
-				item.next().hide();
-
-				item.focus(function(){
-					item.next().slideDown('fast');
-				});
-
-				item.blur(function(){
-					item.next().slideUp('fast');
-				});
 			}
 
 		});
