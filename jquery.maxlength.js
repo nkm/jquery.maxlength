@@ -16,8 +16,8 @@
 		{
 			events:				[], // Array of events to be triggerd
 			maxCharacters:		10, // Characters limit
-			status:				true, // True to show status indicator bewlow the element
-			statusElement:		"span", // True to show status indicator bewlow the element
+			status:				true, // True to show status indicator below the element
+			statusElement:		"span", // Status element type
 			statusClass:		"status", // The class on the status element
 			statusText:			"character left", // The status text
 			notificationClass:	"notification", // Will be added to the emement when maxlength is reached
