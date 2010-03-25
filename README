@@ -1,0 +1,7 @@
+This plugin makes it easy to apply a "maxlength" attribute to custom elements for example a <textarea>.
+
+It also gives you the possibility to add a nice character counter under the element that shows the user how many chars he/she has left before the maxlength is reached, and/or an alert message.
+
+Its simple to use.
+
+(c) Copyright 2010 Emil Stjerneman. All Rights Reserved. 
